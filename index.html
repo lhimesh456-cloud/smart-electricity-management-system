@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101d35">
+    <meta name="description" content="Smart Electricity Management System for electricity bill estimation, energy monitoring and appliance management.">
+
+    <title>Smart Electricity Management System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <div>
+            <h2>SmartEnergy</h2>
+            <small>Management System</small>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+
+        <a href="#dashboard" class="nav-link active">
+            <span>▦</span> Dashboard
+        </a>
+
+        <a href="#bill-calculator" class="nav-link">
+            <span>₹</span> Bill Calculator
+        </a>
+
+        <a href="#appliances" class="nav-link">
+            <span>🔌</span> Appliances
+        </a>
+
+        <a href="#analytics" class="nav-link">
+            <span>📊</span> Analytics
+        </a>
+
+        <a href="#budget" class="nav-link">
+            <span>💰</span> Budget Manager
+        </a>
+
+        <a href="#history" class="nav-link">
+            <span>📋</span> Bill History
+        </a>
+
+        <a href="#comparison" class="nav-link">
+            <span>⚖️</span> State Comparison
+        </a>
+
+        <a href="#energy-tips" class="nav-link">
+            <span>💡</span> Energy Saving
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <p>SMART ENERGY</p>
+        <small>Efficient Energy, Better Future</small>
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+
+        <div class="topbar-left">
+            <button type="button" id="menuToggle"
+                    class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+
+            <div>
+                <h2>Energy Dashboard</h2>
+                <p>Welcome to Smart Electricity Management</p>
+            </div>
+        </div>
+
+        <div class="topbar-right">
+            <span class="status-indicator">● Demo Mode</span>
+            <span class="profile-icon">👤</span>
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page-section">
+
+        <div class="hero-banner">
+
+            <div>
+                <span class="hero-label">SMART ENERGY MANAGEMENT</span>
+
+                <h1>Manage Electricity.<br>Save More Energy.</h1>
+
+                <p>
+                    Monitor consumption, estimate electricity bills
+                    and make smarter energy decisions.
+                </p>
+
+                <a href="#bill-calculator" class="hero-button">
+                    Calculate Your Bill →
+                </a>
+            </div>
+
+            <div class="hero-decoration">⚡</div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <div class="stats-grid">
+
+            <article class="stat-card">
+                <div class="stat-icon blue">⚡</div>
+                <p>Monthly Consumption</p>
+                <h2 id="dashboardUnits">0.00 kWh</h2>
+                <small>Estimated energy usage</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon green">₹</div>
+                <p>Estimated Electricity Bill</p>
+                <h2 id="dashboardBill">₹0.00</h2>
+                <small>Based on calculated tariff</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon orange">🔌</div>
+                <p>Appliances Added</p>
+                <h2 id="dashboardAppliances">0</h2>
+                <small>Registered appliances</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon purple">🎯</div>
+                <p>Monthly Budget</p>
+                <h2 id="dashboardBudget">Not Set</h2>
+                <small>Personal electricity budget</small>
+            </article>
+
+        </div>
+
+
+        <!-- CHART AREA -->
+        <div class="content-grid">
+
+            <article class="panel chart-panel" id="analytics">
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>Energy Consumption</h2>
+                        <p>Monthly consumption overview</p>
+                    </div>
+
+                    <select id="chartPeriod" aria-label="Chart period">
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="consumptionChart">
+                        Energy consumption chart
+                    </canvas>
+                </div>
+
+                <p class="note">
+                    Charts display saved or calculated consumption data.
+                    No live meter connection is assumed.
+                </p>
+
+            </article>
+
+
+            <article class="panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>Energy Summary</h2>
+                        <p>Consumption overview</p>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <span>Total Daily Usage</span>
+                    <strong id="dailyUsage">0.00 kWh</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Monthly Usage</span>
+                    <strong id="monthlyUsage">0.00 kWh</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Highest Usage Appliance</span>
+                    <strong id="highestAppliance">None</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Budget Status</span>
+                    <strong id="budgetStatus">Not Set</strong>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- BILL CALCULATOR -->
+    <section id="bill-calculator" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">ELECTRICITY BILLING</span>
+            <h2>Smart Electricity Bill Calculator</h2>
+            <p>Calculate estimated household electricity charges.</p>
+        </div>
+
+        <article class="panel">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="state">Select State</label>
+
+                    <select id="state" required>
+                        <option value="">Choose State</option>
+                        <option value="AP">Andhra Pradesh</option>
+                        <option value="TS">Telangana</option>
+                        <option value="TN">Tamil Nadu</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="district">Select District</label>
+
+                    <select id="district" required disabled>
+                        <option value="">Select State First</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="discom">Electricity Distribution Company</label>
+
+                    <select id="discom" required>
+                        <option value="">Select State and District</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="consumerCategory">Consumer Category</label>
+
+                    <select id="consumerCategory">
+                        <option value="domestic">Domestic</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="billingPeriod">Billing Period</label>
+
+                    <select id="billingPeriod">
+                        <option value="1">1 Month</option>
+                        <option value="2">2 Months</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="consumedUnits">Units Consumed (kWh)</label>
+
+                    <input type="number"
+                           id="consumedUnits"
+                           min="0"
+                           step="0.01"
+                           placeholder="Enter consumed units"
+                           required>
+                </div>
+
+            </div>
+
+
+            <div class="tariff-information" id="tariffInformation">
+                Select your state and district to identify the applicable
+                electricity distribution area.
+            </div>
+
+
+            <button type="button" id="calculateBill"
+                    class="primary-button">
+                Calculate Electricity Bill
+            </button>
+
+
+            <div class="result-box" id="billResult"
+                 aria-live="polite" hidden>
+
+                <h3>Electricity Bill Breakdown</h3>
+
+                <div class="bill-row">
+                    <span>Consumed Units</span>
+                    <strong id="resultUnits">0 kWh</strong>
+                </div>
+
+                <div class="bill-row">
+                    <span>Energy Charges</span>
+                    <strong id="energyCharges">₹0.00</strong>
+                </div>
+
+                <div class="bill-row">
+                    <span>Fixed Charges</span>
+                    <strong id="fixedCharges">₹0.00</strong>
+                </div>
+
+                <div class="bill-row">
+                    <span>Other Applicable Charges</span>
+                    <strong id="otherCharges">₹0.00</strong>
+                </div>
+
+                <div class="bill-row total-row">
+                    <span>Estimated Total</span>
+                    <strong id="totalBill">₹0.00</strong>
+                </div>
+
+                <p id="tariffSource" class="note"></p>
+
+                <button type="button" id="saveBill"
+                        class="secondary-button">
+                    Save Bill to History
+                </button>
+
+            </div>
+
+            <p class="note">
+                Educational estimate only. Final billing depends on the
+                applicable official tariff, subsidy, billing period,
+                meter type and other adjustments.
+            </p>
+
+        </article>
+
+    </section>
+
+
+    <!-- APPLIANCE MANAGEMENT -->
+    <section id="appliances" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">ENERGY MONITORING</span>
+            <h2>Appliance Management</h2>
+            <p>Calculate individual appliance electricity consumption.</p>
+        </div>
+
+
+        <article class="panel">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="applianceName">Appliance Name</label>
+
+                    <input type="text"
+                           id="applianceName"
+                           placeholder="Example: Ceiling Fan">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="appliancePower">Power Rating (Watts)</label>
+
+                    <input type="number"
+                           id="appliancePower"
+                           min="0"
+                           step="0.01"
+                           placeholder="Example: 75">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="applianceHours">Daily Usage (Hours)</label>
+
+                    <input type="number"
+                           id="applianceHours"
+                           min="0"
+                           max="24"
+                           step="0.01"
+                           placeholder="Example: 8">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="applianceQuantity">Quantity</label>
+
+                    <input type="number"
+                           id="applianceQuantity"
+                           min="1"
+                           step="1"
+                           value="1">
+                </div>
+
+            </div>
+
+
+            <button type="button" id="addAppliance"
+                    class="primary-button">
+                + Add Appliance
+            </button>
+
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Appliance</th>
+                            <th>Power</th>
+                            <th>Hours</th>
+                            <th>Quantity</th>
+                            <th>Monthly Units</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="applianceTable">
+                        <tr>
+                            <td colspan="6">No appliances added yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="total-box">
+                <p>Total Monthly Appliance Consumption</p>
+                <h2 id="totalApplianceUnits">0.00 kWh</h2>
+            </div>
+
+
+            <button type="button" id="sendUnitsToBill"
+                    class="secondary-button">
+                Use Appliance Units in Bill Calculator
+            </button>
+
+        </article>
+
+    </section>
+
+
+    <!-- BUDGET MANAGER -->
+    <section id="budget" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">FINANCIAL MANAGEMENT</span>
+            <h2>Monthly Budget Manager</h2>
+            <p>Set a spending limit for electricity.</p>
+        </div>
+
+        <article class="panel">
+
+            <div class="form-group">
+                <label for="monthlyBudget">Monthly Budget (₹)</label>
+
+                <input type="number"
+                       id="monthlyBudget"
+                       min="0"
+                       step="0.01"
+                       placeholder="Example: 1500">
+            </div>
+
+            <button type="button" id="saveBudget"
+                    class="primary-button">
+                Save Budget
+            </button>
+
+            <div class="budget-progress">
+                <div class="budget-labels">
+                    <span>Estimated Bill</span>
+                    <strong id="budgetPercentage">0%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="budgetProgress"
+                         style="width:0%"></div>
+                </div>
+
+                <p id="budgetMessage" aria-live="polite">
+                    Set your monthly budget to begin.
+                </p>
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- BILL HISTORY -->
+    <section id="history" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">RECORD MANAGEMENT</span>
+            <h2>Electricity Bill History</h2>
+            <p>Review your previously saved bill estimates.</p>
+        </div>
+
+        <article class="panel">
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>State</th>
+                            <th>Units</th>
+                            <th>Estimated Bill</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="historyTable">
+                        <tr>
+                            <td colspan="4">No bill history available.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" id="exportHistory"
+                    class="secondary-button">
+                Download History CSV
+            </button>
+
+        </article>
+
+    </section>
+
+
+    <!-- STATE COMPARISON -->
+    <section id="comparison" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">TARIFF ANALYSIS</span>
+            <h2>State-wise Bill Comparison</h2>
+            <p>Compare estimated domestic electricity costs.</p>
+        </div>
+
+        <article class="panel">
+
+            <div class="form-group">
+                <label for="comparisonUnits">Consumption Units (kWh)</label>
+
+                <input type="number"
+                       id="comparisonUnits"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter units">
+            </div>
+
+            <button type="button" id="compareBills"
+                    class="primary-button">
+                Compare State Bills
+            </button>
+
+            <div id="comparisonResult"
+                 class="comparison-result"
+                 aria-live="polite">
+                Enter consumption units to compare available tariff estimates.
+            </div>
+
+            <p class="note">
+                Comparisons are meaningful only when the applicable
+                tariff schedules and billing periods are verified.
+            </p>
+
+        </article>
+
+    </section>
+
+
+    <!-- ENERGY SAVING -->
+    <section id="energy-tips" class="page-section">
+
+        <div class="section-heading">
+            <span class="section-tag">SMART ENERGY</span>
+            <h2>Energy Saving Recommendations</h2>
+            <p>Simple steps for efficient electricity usage.</p>
+        </div>
+
+        <div class="tips-grid">
+
+            <article class="tip-card">
+                <span>💡</span>
+                <h3>Use LED Lighting</h3>
+                <p>Choose energy-efficient LED bulbs.</p>
+            </article>
+
+            <article class="tip-card">
+                <span>❄️</span>
+                <h3>Efficient Cooling</h3>
+                <p>Use air conditioners efficiently and maintain filters.</p>
+            </article>
+
+            <article class="tip-card">
+                <span>🔌</span>
+                <h3>Switch Off Appliances</h3>
+                <p>Turn off appliances when they are not needed.</p>
+            </article>
+
+            <article class="tip-card">
+                <span>🌞</span>
+                <h3>Use Solar Energy</h3>
+                <p>Explore suitable renewable energy options.</p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <h3>⚡ Smart Electricity Management System</h3>
+
+        <p>
+            A B.Tech Electrical and Electronics Engineering Project
+        </p>
+
+        <p>
+            Monitor Energy • Calculate Bills • Save Electricity
+        </p>
+
+        <small>Educational demonstration software.</small>
+
+    </footer>
+
+</main>
+
+
+<!-- JAVASCRIPT -->
+<script src="script.js" defer></script>
+
+</body>
+</html>
